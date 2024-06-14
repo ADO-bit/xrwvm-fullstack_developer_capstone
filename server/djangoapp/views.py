@@ -102,7 +102,7 @@ def get_dealer_details(request, dealer_id):
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
-
+@csrf_exempt
 def add_review(request):
     if not request.user.is_anonymous:
         data = json.loads(request.body)
