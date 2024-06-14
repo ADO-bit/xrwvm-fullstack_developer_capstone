@@ -17,7 +17,7 @@ class CarModel(models.Model):
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
         ('WAGON', 'Wagon'),
-        ('HYBRID','Hybrid')
+        ('HYBRID', 'Hybrid')
     ]
     type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
     year = models.IntegerField(
@@ -30,3 +30,4 @@ class CarModel(models.Model):
 
     def __str__(self):
         return self.name
+        
