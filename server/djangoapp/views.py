@@ -1,10 +1,10 @@
 # Uncomment the required imports before adding the code
 
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, redirect
-# from django.contrib.auth import logout
+# from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import logout
 # from django.contrib import messages
 # from datetime import datetime
 from .models import CarMake, CarModel
@@ -40,6 +40,7 @@ def login_user(request):
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
+    logout(request)
     data = {"userName":""}
     return JsonResponse(data)
 
@@ -118,12 +119,14 @@ def get_dealer_details(request, dealer_id):
         return JsonResponse({"status":400,"message":"Bad Request"})
 
 def add_review(request):
-    if(request.user.is_anonymous == False):
+    if(request.user.is_anonymous is False):
         data = json.loads(request.body)
         try:
-            response = post_review(data)
+            post_review(data)
             return JsonResponse({"status":200})
-        except:
+        except Exception:
             return JsonResponse({"status":401,"message":"Error in posting review"})
+        finally:
+            print("add_review request successful!")
     else:
         return JsonResponse({"status":403,"message":"Unauthorized"})

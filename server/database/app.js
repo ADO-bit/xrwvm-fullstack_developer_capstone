@@ -59,8 +59,8 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
 // Express route to fetch all dealerships
 app.get('/fetchDealers', async (req, res) => {
   try {
-    const documents = await Dealerships.find();
-    res.json(documents);
+    const dealers = await Dealerships.find();
+    res.json(dealers);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching documents' });
   }
@@ -78,17 +78,13 @@ app.get('/fetchDealers/:state', async (req, res) => {
 
 // Express route to fetch dealer by a particular id
 app.get('/fetchDealer/:id', async (req, res) => {
- try {
-    const dealer = await Dealerships.findById(req.params.id);
-    if (!dealer) {
-      return res.status(404).json({ message: 'Dealer not found' });
-    }
-    res.status(200).json(dealer);
+try {
+    const dealers = await Dealerships.find({id: req.params.id});
+    res.json(dealers);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Error fetching documents' });
   }
-});
+ });
 
 //Express route to insert review
 app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
@@ -97,16 +93,16 @@ app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
   let new_id = documents[0]['id']+1
 
   const review = new Reviews({
-		"id": new_id,
-		"name": data['name'],
-		"dealership": data['dealership'],
-		"review": data['review'],
-		"purchase": data['purchase'],
-		"purchase_date": data['purchase_date'],
-		"car_make": data['car_make'],
-		"car_model": data['car_model'],
-		"car_year": data['car_year'],
-	});
+                "id": new_id,
+                "name": data.name,
+                "dealership": data.dealership,
+                "review": data.review,
+                "purchase": data.purchase,
+                "purchase_date": data.purchase_date,
+                "car_make": data.car_make,
+                "car_model": data.car_model,
+                "car_year": data.car_year,
+       });
 
   try {
     const savedReview = await review.save();
