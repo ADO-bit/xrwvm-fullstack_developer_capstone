@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
-from django.contrib import messages
-from datetime import datetime
 import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
